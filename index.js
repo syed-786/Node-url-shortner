@@ -1,11 +1,39 @@
 const express = require("express");
-
-const app = express();
+const connectMongoDB = require("./connection");
+const urlRouter = require("./routes/url");
+const userRoute = require("./routes/userRoute");
+const path = require("path");
+const URL = require("./models/url");
+const staticRouter = require("./routes/staticRouter");
+const cookieParser = require("cookie-parser");
+const {
+  restrictToLoggedInUserOnly,
+  checkAuth,
+} = require("./middleware/authMiddleware");
 
 const port = 3001;
+const app = express();
 
-app.get("/", (req, res) => {
-  res.send("Hello");
+connectMongoDB("mongodb://127.0.0.1:27017/short-url").then(() => {
+  console.log("MongoDB connected");
 });
+
+app.set("view engine", "ejs");
+app.set("views", path.resolve("./views"));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+
+app.use("/url", restrictToLoggedInUserOnly, urlRouter);
+app.use("/user", userRoute);
+app.use("/", checkAuth, staticRouter);
+
+// app.get("/test", async (req, res) => {
+//   const allUrls = await URL.find({});
+//   return res.render("home", {
+//     urls: allUrls,
+//   });
+// });
 
 app.listen(port, () => console.log(`Server is running on port ${port}`));

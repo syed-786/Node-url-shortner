@@ -15,8 +15,13 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    role: {
+      type: String,
+      required: true,
+      default: "NORMAL",
+    },
   },
-  { timeStamp: true },
+  { timeStamps: true },
 );
 
 const User = mongoose.model("user", userSchema);

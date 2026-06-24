@@ -15,5 +15,9 @@
 
       <button type="submit">Login</button>
     </form>
+    <% if (locals.error) { %>
+     <h3 style="color:red">Error: <%= error %></h3>
+    <% } %>
+    
   </body>
 </html>

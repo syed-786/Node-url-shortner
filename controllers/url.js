@@ -17,10 +17,9 @@ async function gererateNewShortURL(req, res) {
     visitHistory: [],
     createdBy: req.user._id,
   });
-  // const allUrls = await URL.find({});
+
   return res.render("home", {
     id: shortId,
-    // urls: allUrls,
   });
 
   //   return res.status(201).json({ id: shortId });

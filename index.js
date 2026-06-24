@@ -7,8 +7,8 @@ const URL = require("./models/url");
 const staticRouter = require("./routes/staticRouter");
 const cookieParser = require("cookie-parser");
 const {
-  restrictToLoggedInUserOnly,
-  checkAuth,
+  checkAuthentication,
+  restrictTo,
 } = require("./middleware/authMiddleware");
 
 const port = 3001;
@@ -24,10 +24,11 @@ app.set("views", path.resolve("./views"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(checkAuthentication);
 
-app.use("/url", restrictToLoggedInUserOnly, urlRouter);
+app.use("/url", restrictTo(["NORMAL", "ADMIN"]), urlRouter);
 app.use("/user", userRoute);
-app.use("/", checkAuth, staticRouter);
+app.use("/", staticRouter);
 
 // app.get("/test", async (req, res) => {
 //   const allUrls = await URL.find({});

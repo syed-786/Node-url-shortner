@@ -14,7 +14,7 @@ const urlSchema = new mongoose.Schema(
     visitHistory: [{ timeStamp: { type: Number } }],
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "users",
+      ref: "user", // the ref must exactly match the model name string you passed to mongoose.model(). In your case, that’s "user" for userModel
     },
   },
   { timestamps: true },

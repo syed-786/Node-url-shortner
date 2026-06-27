@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
-function connectMondoDB(url) {
+function connectMongoDB(url) {
   return mongoose.connect(url);
 }
 
-module.exports = connectMondoDB;
+module.exports = connectMongoDB;
